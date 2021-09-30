@@ -6,13 +6,16 @@ public class SendOSC : MonoBehaviour {
 
 	public OSC oscReference;
 
+    public Joystick rotationJoystick, zoomJoystick;
+
+
 	// Use this for initialization
 	void Start () {
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+        sendJoystickData();
 	}
 
     public void SendMessageScene(int index)
@@ -23,6 +26,21 @@ public class SendOSC : MonoBehaviour {
         oscReference.Send(message);
     }
 
+
+    void sendJoystickData()
+    {
+        OscMessage messageRot = new OscMessage();
+        messageRot.address = "/Rotation";
+        messageRot.values.Add(rotationJoystick.Horizontal);
+        messageRot.values.Add(rotationJoystick.Vertical);
+
+        oscReference.Send(messageRot);
+
+        OscMessage messageZoom = new OscMessage();
+        messageZoom.address = "/Zoom";
+        messageZoom.values.Add(zoomJoystick.Vertical);
+        oscReference.Send(messageZoom);
+    }
 
 
 
